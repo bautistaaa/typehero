@@ -1,0 +1,87 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+  "organizeImports": { "enabled": true },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "nursery": {
+        "useSortedClasses": "warn"
+      },
+      "recommended": false,
+      "a11y": {
+        "noAutofocus": "off",
+        "noRedundantRoles": "off",
+        "useAnchorContent": "off",
+        "useButtonType": "off",
+        "useHeadingContent": "off",
+        "useHtmlLang": "off",
+        "useKeyWithClickEvents": "off",
+        "useValidAnchor": "off"
+      },
+      "complexity": {
+        "noUselessFragments": "off",
+        "useOptionalChain": "off",
+        "useRegexLiterals": "off"
+      },
+      "correctness": {
+        "noUnusedImports": "error",
+        "noUnusedVariables": "off"
+      },
+      "style": {
+        "noDefaultExport": "off",
+        "noNonNullAssertion": "off",
+        "noParameterAssign": "off"
+      },
+      "suspicious": {
+        "noArrayIndexKey": "off",
+        "noControlCharactersInRegex": "off",
+        "noDoubleEquals": "off",
+        "noEmptyBlockStatements": "off",
+        "useAwait": "off"
+      }
+    },
+    "ignore": [
+      "**/public/",
+      "tooling/**",
+      "challenges/**",
+      "**/monaco-editor.d.ts",
+      "**/next-env.d.ts",
+      "**/node_modules/",
+      "**/dist/"
+    ]
+  },
+  "overrides": [
+    {
+      "include": ["**/*.test.*"],
+      "linter": { "rules": { "suspicious": { "noExplicitAny": "off" } } }
+    },
+    {
+      "include": ["jest.config.*", "vite.config.*", "tsup.config.*", "drizzle.config.ts"],
+      "linter": { "rules": { "style": { "noDefaultExport": "off" } } }
+    },
+    {
+      "include": ["**/turbo/generators/config.*"],
+      "linter": { "rules": { "style": { "noDefaultExport": "off" } } }
+    },
+    { "include": ["*.ts?(x)"] }
+  ],
+  "formatter": {
+    "ignore": [
+      "tooling/**",
+      "challenges/**",
+      "**/monaco-editor.d.ts",
+      "**/next-env.d.ts",
+      "**/node_modules/",
+      "**/dist/"
+    ],
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 100
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single"
+    }
+  }
+}
