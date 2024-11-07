@@ -102,6 +102,22 @@ try {
     },
   });
 
+  const badgeALotId = '420';
+  await prisma.user.upsert({
+    where: { id: badgeALotId },
+    update: {},
+    create: {
+      id: badgeALotId,
+      email: 'test@test.com',
+      name: 'sir_badge_a_lot',
+      sharedSolution: {
+        create: aLotOfSharedSolutionsManyChallenges(challengesFromTypeChallenges),
+      },
+      submission: {
+        create: aLotOfSubmissionsManyChallenges(challengesFromTypeChallenges),
+      },
+    },
+  });
   await prisma.$disconnect();
 } catch (e) {
   console.error(e);
@@ -122,5 +138,24 @@ function alotOfSharedSolutions(challengeId: number) {
     challengeId,
     title: faker.lorem.words(7),
     description: faker.lorem.words({ min: 5, max: 25 }),
+  }));
+}
+function aLotOfSharedSolutionsManyChallenges(
+  challengeIds: Omit<Prisma.ChallengeCreateManyInput, 'userId'>[],
+) {
+  return challengeIds.map((challenge) => ({
+    challengeId: challenge.id,
+    title: faker.lorem.words(7),
+    description: faker.lorem.words({ min: 5, max: 25 }),
+  }));
+}
+function aLotOfSubmissionsManyChallenges(
+  challengeIds: Omit<Prisma.ChallengeCreateManyInput, 'userId'>[],
+) {
+  return challengeIds.map((challenge) => ({
+    challengeId: challenge.id || 0,
+    code: faker.lorem.words(7),
+    isSuccessful: true,
+    createdAt: new Date(),
   }));
 }

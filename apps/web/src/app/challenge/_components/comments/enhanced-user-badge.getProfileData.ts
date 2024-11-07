@@ -1,8 +1,8 @@
 'use server';
 
 import { prisma } from '@repo/db';
+import { getBadges } from '~/app/actions/badges/_actions';
 import { getTitles } from './enhanced-user-badge.getTitles';
-import { getBadges } from '~/app/(profile)/[username]/user-info';
 
 export async function getProfileData(username: string) {
   const user = await prisma.user.findFirstOrThrow({
@@ -23,6 +23,6 @@ export async function getProfileData(username: string) {
   return {
     ...user,
     titles,
-    badges: badges.slice(0, 3),
+    badges,
   };
 }

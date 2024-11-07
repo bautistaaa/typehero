@@ -11,8 +11,8 @@ import {
   HolidayPlatinumBadge,
   HolidaySilverBadge,
 } from './aot-badges/aot-2023-badge';
-import type { BadgeInfo } from '../user-info';
 import type { FC } from 'react';
+import type { BadgeInfo } from '~/app/actions/badges/_actions';
 
 export const SlugToBadgeIcon: Record<BadgeInfo['slug'], FC<{ className: string }>> = {
   'aot-2023-bronze': HolidayBronzeBadge,

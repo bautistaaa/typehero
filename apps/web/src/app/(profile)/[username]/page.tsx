@@ -18,9 +18,11 @@ import { CardContent, CardHeader } from '@repo/ui/components/card';
 import { Badges, EmptyBadge } from './_components/badges';
 import { CardWithRadialBg } from './_components/card-radial-bg';
 import { MovingGrid } from './_components/moving-grid';
-import { getBadges, getProgressData, getUserActivity } from './user-info';
+import { getProgressData, getUserActivity } from './user-info';
 import { auth } from '~/server/auth';
 import { MagicIcon } from '@repo/ui/components/magic-icon';
+import { getBadges } from '~/app/actions/badges/_actions';
+import { aotBadgeKeys } from '~/app/actions/badges/badge-types/advent-badges';
 
 /* const sampleBadgeData = [
   { slug: 'aot-2023-bronze', name: 'Advent of TypeScript 2023 Bronze' },
@@ -71,7 +73,9 @@ export default async function ProfilePage(props: { params: { username: string } 
   if (user === null) {
     notFound();
   }
-  const badges = await getBadges(user.id);
+  const badges = await getBadges(user.id)
+    // filter out the non-working badges. The frontend code has to be changed to allow them
+    .then((x) => x.filter((x) => aotBadgeKeys.includes(x.slug)));
   const titles = getTitles(user.roles);
   const gradient = getGradient(user.roles);
   const progressData = await getProgressData(user.id);
