@@ -5,19 +5,17 @@ import { getTrackDetails } from '../_components/track.action';
 
 export const dynamic = 'force-dynamic';
 
-interface PageProps {
-  params: {
-    slug: string;
-  };
+type Params = Promise<{ slug: string }>;
+
+export default async function Page({ params }: { params: Params }) {
+  const { slug } = await params;
+  const session = await auth();
+
+  return <TrackDetail slug={slug} />;
 }
 
-export default async function Page({ params }: PageProps) {
-  await auth();
-
-  return <TrackDetail slug={params.slug} />;
-}
-
-export async function generateMetadata({ params: { slug } }: PageProps) {
+export async function generateMetadata({ params }: { params: Params }) {
+  const { slug } = await params;
   const track = await getTrackDetails(slug);
 
   if (!track) {

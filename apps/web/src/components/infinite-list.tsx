@@ -16,9 +16,12 @@ const DEFAULT_OPTIONS = {
   threshold: 1,
 };
 
-export function useObserver(ref: RefObject<HTMLDivElement>, options?: IntersectionObserverInit) {
+export function useObserver(
+  ref: RefObject<HTMLDivElement | null>,
+  options?: IntersectionObserverInit,
+) {
   const [entry, setEntry] = useState<IntersectionObserverEntry | null>(null);
-  const observerRef = useRef<IntersectionObserver>();
+  const observerRef = useRef<IntersectionObserver>(null);
 
   if (!observerRef.current && typeof IntersectionObserver !== 'undefined') {
     observerRef.current = new IntersectionObserver(

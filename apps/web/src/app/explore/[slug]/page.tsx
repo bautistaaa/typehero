@@ -1,15 +1,11 @@
-import { Suspense } from 'react';
-import { ExploreSlugSkeleton } from '../_components/explore-slug-skeleton';
-import { ExploreSlug } from '../_components/explore-slug';
 import type { Metadata } from 'next';
+import { Suspense, use } from 'react';
+import { ExploreSlug } from '../_components/explore-slug';
+import { ExploreSlugSkeleton } from '../_components/explore-slug-skeleton';
 
 export const dynamic = 'force-dynamic';
 
-interface PageProps {
-  params: {
-    slug: string;
-  };
-}
+type Params = Promise<{ slug: string }>;
 
 export const metadata: Metadata = {
   title: 'Explore Challenges | TypeHero',
@@ -17,10 +13,12 @@ export const metadata: Metadata = {
 
 // accepts both difficulty & tags as slug.
 // ex: `/explore/easy`, `explore/popular`
-export default function Page({ params }: PageProps) {
+export default function Page({ params }: { params: Params }) {
+  const { slug } = use(params);
+
   return (
     <Suspense fallback={<ExploreSlugSkeleton />}>
-      <ExploreSlug slug={params.slug} />
+      <ExploreSlug slug={slug} />
     </Suspense>
   );
 }

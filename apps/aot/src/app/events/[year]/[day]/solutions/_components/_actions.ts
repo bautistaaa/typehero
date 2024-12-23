@@ -1,10 +1,14 @@
 'use server';
 
-import { auth } from '~/server/auth';
 import { prisma } from '@repo/db';
 import { revalidateTag } from 'next/cache';
+import { auth } from '~/server/auth';
 import { isAdminOrModerator, isAuthor } from '~/utils/auth-guards';
 import type { ChallengeSolution } from '../[solutionId]/page';
+import {
+  createCacheKeyForSharedSolutionsTab,
+  createCacheKeyForSolutions,
+} from './solution.helpers';
 
 interface Args {
   challengeId: number;
@@ -21,9 +25,6 @@ interface SolutionUpdateArgs {
   title: string;
   userId: string;
 }
-
-export const createCacheKeyForSolutions = (slug: string) => `challenge-${slug}-solutions`;
-export const createCacheKeyForSharedSolutionsTab = (userId: string) => `${userId}-shared-solutions`;
 
 export async function updateSolution({ id, description, slug, title }: SolutionUpdateArgs) {
   const session = await auth();

@@ -1,7 +1,6 @@
 'use client';
 
 import clsx from 'clsx';
-import { userMentions } from './utils/mentions';
 import { useTheme } from 'next-themes';
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
@@ -11,11 +10,12 @@ import rehypeSanitize from 'rehype-sanitize';
 import remarkGfm from 'remark-gfm';
 import type { Transformer } from 'unified';
 import { SKIP, visit, type BuildVisitor } from 'unist-util-visit';
+import { Check, Copy } from '../icons';
 import { vs } from '../themes/vs';
 import { vscDarkPlus } from '../themes/vs-dark-plus';
-import { Tooltip, TooltipContent, TooltipTrigger } from './tooltip';
 import { Button } from './button';
-import { Check, Copy } from '../icons';
+import { Tooltip, TooltipContent, TooltipTrigger } from './tooltip';
+import { userMentions } from './utils/mentions';
 
 const HTML_COMMENT_REGEX = new RegExp('<!--([\\s\\S]*?)-->', 'g');
 

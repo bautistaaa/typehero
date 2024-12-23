@@ -2,8 +2,8 @@
 
 import { Textarea, type TextareaProps } from '@repo/ui/components/textarea';
 import { useState, type ChangeEvent, type KeyboardEvent, type RefObject } from 'react';
-import { UserResults } from './user-results';
 import { useDebouncedValue } from '~/utils/useDebouncedValue';
+import { UserResults } from './user-results';
 
 const NO_OP_KEYS = ['ArrowDown', 'ArrowUp', 'Tab', 'Enter'];
 
@@ -11,7 +11,7 @@ type Modify<T, R> = Omit<T, keyof R> & R;
 type Props = Modify<
   TextareaProps,
   {
-    forwardedref: RefObject<HTMLTextAreaElement>;
+    forwardedref: RefObject<HTMLTextAreaElement | null>;
     onChange: (e: string) => void;
   }
 >;

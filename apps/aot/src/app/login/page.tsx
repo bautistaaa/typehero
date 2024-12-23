@@ -1,16 +1,16 @@
 import Link from 'next/link';
-import { LoginButton } from './_components/LoginButton';
 import { buildMetaForEventPage } from '~/utils/metadata';
+import { LoginButton } from './_components/LoginButton';
 
 export function generateMetadata() {
   return buildMetaForEventPage();
 }
-export default function Index({
+export default async function Index({
   searchParams,
 }: {
-  searchParams: {
+  searchParams: Promise<{
     redirectTo: string | null;
-  };
+  }>;
 }) {
   return (
     <div className="container -mt-[56px] flex h-screen flex-col items-center justify-center">
@@ -21,7 +21,7 @@ export default function Index({
               Welcome to Advent of TS!
             </h1>
           </div>
-          <LoginButton redirectTo={searchParams.redirectTo ?? '/'} />
+          <LoginButton redirectTo={(await searchParams).redirectTo ?? '/'} />
           <p className="text-muted-foreground mx-auto px-8 text-sm sm:w-[350px]">
             By clicking Login, you agree to our <br />
             <Link href="/tos" className="hover:text-primary underline underline-offset-4">

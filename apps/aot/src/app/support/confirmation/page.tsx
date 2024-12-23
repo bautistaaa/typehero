@@ -1,27 +1,25 @@
-import type { Stripe } from 'stripe';
-import { stripe } from '../_utils/stripe';
-import { auth } from '~/server/auth';
 import { prisma } from '@repo/db';
 import dynamic from 'next/dynamic';
+import type { Stripe } from 'stripe';
+import { auth } from '~/server/auth';
 import { getAllFlags } from '~/utils/feature-flag';
+import { stripe } from '../_utils/stripe';
 
-const ContentNoSSR = dynamic(() => import('./content'), {
-  ssr: false,
-});
+const ContentNoSSR = dynamic(() => import('./content'));
 
 export default async function ResultPage({
   searchParams,
 }: {
-  searchParams: { checkout_id: string };
+  searchParams: Promise<{ checkout_id: string }>;
 }) {
-  if (!searchParams.checkout_id)
+  if (!(await searchParams).checkout_id)
     throw new Error('Please provide a valid session_id (`cs_test_...`)');
 
   const session = await auth();
   const { enableAotPlatform } = await getAllFlags();
 
   const checkoutSession: Stripe.Checkout.Session = await stripe.checkout.sessions.retrieve(
-    searchParams.checkout_id,
+    (await searchParams).checkout_id,
     {
       expand: ['line_items', 'payment_intent'],
     },

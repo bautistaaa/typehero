@@ -3,8 +3,7 @@
 import { prisma } from '@repo/db';
 import { revalidateTag } from 'next/cache';
 import { auth } from '~/server/auth';
-
-export const createCacheKeyForBookmarksTab = (userId: string) => `${userId}-bookmarked-challenges`;
+import { createCacheKeyForBookmarksTab } from './bookmark.helpers';
 
 export async function addOrRemoveBookmark(
   challengeId: number,

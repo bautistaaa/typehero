@@ -1,19 +1,18 @@
-import { auth } from '~/server/auth';
 import { prisma } from '@repo/db';
+import { auth } from '~/server/auth';
 import { assertAdmin } from '~/utils/auth-guards';
 import { UpdateTrackForm } from './_components/update-track-form';
 
-export interface TracksPageProps {
-  params: {
-    trackId: string;
-  };
-}
+type Params = Promise<{
+  trackId: string;
+}>;
 
-export default async function TrackPage(props: TracksPageProps) {
+export default async function ({ params }: { params: Params }) {
+  const { trackId } = await params;
   const session = await auth();
   assertAdmin(session);
 
-  const track = await getTrackById(Number(props.params.trackId));
+  const track = await getTrackById(Number(trackId));
   const challenges = await getChallenges();
 
   return <UpdateTrackForm track={track} challenges={challenges} />;

@@ -1,3 +1,5 @@
+import type { Difficulty, Submission } from '@repo/db/types';
+import { cn } from '@repo/ui/cn';
 import {
   Card,
   CardContent,
@@ -17,13 +19,7 @@ import {
   ThumbsUp,
   Triangle,
 } from '@repo/ui/icons';
-import dynamic from 'next/dynamic';
-import type { Difficulty, Submission } from '@repo/db/types';
-import { cn } from '@repo/ui/cn';
-
-const RelativeTime = dynamic(() => import('./relative-time'), {
-  ssr: false,
-});
+import RelativeTime from './relative-time';
 
 export const BORDERS_BY_DIFFICULTY = {
   BEGINNER:

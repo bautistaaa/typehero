@@ -1,11 +1,11 @@
 'use server';
 
-import { newShortURLSlug } from '../shortUrlSlug';
 import { prisma } from '@repo/db';
-import { getBaseUrl } from '~/utils/getBaseUrl';
-import { THREE_MONTHS } from '../increment-time';
 import { headers } from 'next/headers';
+import { getBaseUrl } from '~/utils/getBaseUrl';
 import { rateLimit } from '~/utils/rateLimit';
+import { THREE_MONTHS } from '../increment-time';
+import { newShortURLSlug } from '../shortUrlSlug';
 
 interface CreateShortURLConfig {
   forceNewUrl?: boolean;
@@ -17,7 +17,7 @@ export async function createShortURL(
   config = {} as CreateShortURLConfig,
 ): Promise<string | null> {
   // Rate limit the creation of new short URLs
-  const ip = headers().get('x-forwarded-for') ?? 'unknown';
+  const ip = (await headers()).get('x-forwarded-for') ?? 'unknown';
   const isRateLimited = rateLimit(ip);
   if (isRateLimited) {
     console.error('Rate limited:', ip);

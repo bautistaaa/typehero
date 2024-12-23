@@ -1,20 +1,20 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { DailyCountdownTimer } from '~/components/DailyCountdownTimer';
+import { Footsies } from '~/components/footsies';
+import Partners from '~/components/landing/Partners';
+import type { RouterOutputs } from '~/trpc/react';
 import { api } from '~/trpc/server';
 import { buildMetaForEventPage } from '~/utils/metadata';
 import { isValidAdventYear } from '~/utils/time-utils';
-import DaySolved from './day';
-import type { RouterOutputs } from '~/trpc/react';
-import { DailyCountdownTimer } from '~/components/DailyCountdownTimer';
 import BgDecorations from './24BgDecorations';
-import Partners from '~/components/landing/Partners';
-import { Footsies } from '~/components/footsies';
+import DaySolved from './day';
 
 type Challenge = RouterOutputs['event']['getEventChallengesByYear'][0];
 interface EventByYearLandingPageProps {
-  params: {
+  params: Promise<{
     year: string;
-  };
+  }>;
 }
 
 export function generateMetadata() {
@@ -22,7 +22,7 @@ export function generateMetadata() {
 }
 
 export default async function EventByYearLandingPage({ params }: EventByYearLandingPageProps) {
-  const year = Number(params.year);
+  const year = Number((await params).year);
   if (!isValidAdventYear(year)) return notFound();
 
   // this will only return challenges that have passed/currently active

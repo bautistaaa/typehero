@@ -1,19 +1,17 @@
-import type { Stripe } from 'stripe';
-import { stripe } from '../_utils/stripe';
-import { auth } from '~/server/auth';
 import { prisma } from '@repo/db';
-import dynamic from 'next/dynamic';
-
-const ContentNoSSR = dynamic(() => import('./content'), {
-  ssr: false,
-});
+import type { Stripe } from 'stripe';
+import { auth } from '~/server/auth';
+import { stripe } from '../_utils/stripe';
+import Content from './content';
 
 export default async function ResultPage({
-  searchParams,
+  searchParams: searchParamsData,
 }: {
-  searchParams: { checkout_id: string };
+  searchParams: Promise<{ checkout_id: string }>;
 }) {
-  if (!searchParams.checkout_id)
+  const searchParams = await searchParamsData;
+
+  if (!searchParams.checkout_id || !searchParams)
     throw new Error('Please provide a valid session_id (`cs_test_...`)');
 
   const session = await auth();
@@ -70,5 +68,5 @@ export default async function ResultPage({
     );
   }
 
-  return <ContentNoSSR />;
+  return <Content />;
 }

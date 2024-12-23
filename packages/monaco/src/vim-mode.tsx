@@ -1,8 +1,8 @@
 'use client';
 
 import type * as monaco from 'monaco-editor';
-import { useEffect, useRef } from 'react';
 import { VimMode, initVimMode } from 'monaco-vim';
+import { useEffect, useRef } from 'react';
 import { DEFAULT_SETTINGS, useEditorSettingsStore } from './settings-store';
 
 VimMode.Vim.defineEx('MonacoCommand', 'M', function monacoExCommand(ctx, { args }) {
@@ -45,7 +45,7 @@ interface VimStatusBarProps {
 export default function VimStatusBar({ editor }: VimStatusBarProps) {
   const statusBarRef = useRef<HTMLDivElement>(null);
   // NOTE: Maybe doesn't need to be a ref anymore?
-  const vimModeRef = useRef<VimMode>();
+  const vimModeRef = useRef<VimMode>(undefined);
   const { settings } = useEditorSettingsStore();
 
   useEffect(() => {

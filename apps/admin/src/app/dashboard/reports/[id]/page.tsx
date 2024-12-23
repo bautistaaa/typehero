@@ -1,9 +1,9 @@
-import { auth } from '~/server/auth';
 import { Alert, AlertDescription, AlertTitle } from '@repo/ui/components/alert';
 import { Markdown } from '@repo/ui/components/markdown';
 import { Text } from '@repo/ui/components/typography/typography';
 import { AlertCircle, ChevronLeft } from '@repo/ui/icons';
 import Link from 'next/link';
+import { auth } from '~/server/auth';
 import { assertAdmin } from '~/utils/auth-guards';
 import { getReport, type ReportWithInfo } from './_actions';
 import { ChallengeReport } from './_components/challenge.report';
@@ -12,11 +12,7 @@ import { SolutionReport } from './_components/solution.report';
 import { UserReport } from './_components/user.report';
 import { ReportActions } from './actions';
 
-export interface ReportPageProps {
-  params: {
-    id: string;
-  };
-}
+type Params = Promise<{ id: string }>;
 
 const getTitle = (type: string) => {
   switch (type) {
@@ -39,7 +35,9 @@ const getComponentByType = (type: ReportWithInfo['type']) => {
     USER: UserReport,
   }[type];
 };
-export default async function ReportPage({ params: { id } }: ReportPageProps) {
+
+export default async function ({ params }: { params: Params }) {
+  const { id } = await params;
   const session = await auth();
   assertAdmin(session);
 

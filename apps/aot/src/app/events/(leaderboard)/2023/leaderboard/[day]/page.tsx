@@ -6,7 +6,9 @@ export function generateStaticParams() {
   return Array.from({ length: DAY }).map((_, index) => ({ day: (index + 1).toString() }));
 }
 
-export default async function Page({ params: { day } }: { params: { day: string } }) {
+export default async function Page({ params }: { params: Promise<{ day: string }> }) {
+  const { day } = await params;
   const data = await getFirst100SubmissionsRanked(YEAR.toString(), day);
+
   return <LeaderboardPage data={data} isDayPage />;
 }

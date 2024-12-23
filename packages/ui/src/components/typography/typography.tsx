@@ -1,5 +1,5 @@
-import React, { type ElementType } from 'react';
 import { cva } from 'class-variance-authority';
+import React, { type ElementType, type JSX } from 'react';
 import { cn } from '../../cn';
 
 export type Intent = 'body' | 'h1' | 'h2' | 'h3' | 'leading' | 'title';

@@ -75,7 +75,7 @@ export function Comment({
   const params = useSearchParams();
   const replyId = params.get('replyId');
 
-  const timeoutRef = useRef<NodeJS.Timeout>();
+  const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
   const hasPreselectedReply =
     preselectedCommentMetadata?.selectedComment?.id === comment.id && Boolean(replyId);

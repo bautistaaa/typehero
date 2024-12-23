@@ -1,21 +1,23 @@
 import { ChallengeLayoutWrapper } from '~/app/challenge/_components/challenge-layout-wrapper';
 
-import { auth } from '~/server/auth';
 import { ForceRenderUntilClient } from '@repo/ui/components/force-render-until-client';
+import { auth } from '~/server/auth';
 
+import { permanentRedirect } from 'next/navigation';
+import { AOT_CHALLENGES } from './aot-slugs';
+import { ContextProviders } from './context-providers';
 import { getChallengeRouteData } from './getChallengeRouteData';
 import { TrackVisibiltyProvider } from './use-track-visibility.hook';
-import { ContextProviders } from './context-providers';
-import { AOT_CHALLENGES } from './aot-slugs';
-import { permanentRedirect } from 'next/navigation';
 
 export default async function LayoutData({
   children,
-  params: { slug },
+  params,
 }: {
   children: React.ReactNode;
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
+  const { slug } = await params;
+
   if (AOT_CHALLENGES.includes(slug)) {
     return permanentRedirect('https://adventofts.com/');
   }

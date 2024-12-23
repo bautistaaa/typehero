@@ -1,8 +1,8 @@
 'use server';
 
-import { auth } from '~/server/auth';
 import { prisma } from '@repo/db';
 import { headers } from 'next/headers';
+import { auth } from '~/server/auth';
 import { rateLimit } from '~/utils/rateLimit';
 
 export async function markNotificationsAsRead(ids: number[]) {
@@ -118,7 +118,7 @@ export async function getNotifications({
 }
 
 export async function markAllAsRead() {
-  const ip = headers().get('x-forwarded-for') ?? 'unknown';
+  const ip = (await headers()).get('x-forwarded-for') ?? 'unknown';
   const isRateLimited = rateLimit(ip);
   if (isRateLimited) {
     throw new Error('Rate limit exceeded');

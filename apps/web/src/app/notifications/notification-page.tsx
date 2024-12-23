@@ -1,6 +1,9 @@
 'use client';
 
+import { Button } from '@repo/ui/components/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@repo/ui/components/tabs';
+import { ToastAction } from '@repo/ui/components/toast';
+import { useToast } from '@repo/ui/components/use-toast';
 import { Bell } from '@repo/ui/icons';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRef } from 'react';
@@ -8,13 +11,10 @@ import { NOTIFICATION_QUERY_KEY } from '~/components/Navigation/notification-lin
 import { markAllAsRead, markNotificationsAsRead } from './notification.actions';
 import { NotificationsAll } from './notifications-all';
 import { NotificationsMentions } from './notifications-mentions';
-import { Button } from '@repo/ui/components/button';
-import { useToast } from '@repo/ui/components/use-toast';
-import { ToastAction } from '@repo/ui/components/toast';
 
 export default function NotificationPage() {
   const seenNotifications = useRef(new Set<number>());
-  const timeoutRef = useRef<number>();
+  const timeoutRef = useRef<number>(undefined);
   const { toast } = useToast();
   const client = useQueryClient();
   const mutation = useMutation({

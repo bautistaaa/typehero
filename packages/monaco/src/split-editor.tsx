@@ -93,8 +93,8 @@ export default function SplitEditor({
   const resizer = useRef<HTMLDivElement>(null);
   const testPanel = useRef<HTMLDivElement>(null);
   const testPanelSection = useRef<HTMLDivElement>(null);
-  const monacoRef = useRef<typeof import('monaco-editor')>();
-  const editorRef = useRef<monacoType.editor.IStandaloneCodeEditor>();
+  const monacoRef = useRef<typeof import('monaco-editor')>(undefined);
+  const editorRef = useRef<monacoType.editor.IStandaloneCodeEditor>(undefined);
 
   useEffect(() => {
     const saveHandler = (e: KeyboardEvent) => {

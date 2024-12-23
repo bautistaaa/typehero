@@ -1,12 +1,12 @@
 import Link from 'next/link';
 import { LoginButton } from './_components/LoginButton';
 
-export default function Index({
+export default async function Index({
   searchParams,
 }: {
-  searchParams: {
+  searchParams: Promise<{
     redirectTo: string | null;
-  };
+  }>;
 }) {
   return (
     <div className="container -mt-[56px] flex h-screen flex-col items-center justify-center">
@@ -20,7 +20,7 @@ export default function Index({
               Start your typescript journey by logging in below.
             </p>
           </div>
-          <LoginButton redirectTo={searchParams.redirectTo ?? '/explore'} />
+          <LoginButton redirectTo={(await searchParams).redirectTo ?? '/explore'} />
           <p className="text-muted-foreground mx-auto px-8 text-sm sm:w-[350px]">
             By clicking Login, you agree to our <br />
             <Link href="/tos" className="hover:text-primary underline underline-offset-4">
